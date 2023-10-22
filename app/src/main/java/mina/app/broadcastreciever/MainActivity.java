@@ -9,38 +9,51 @@ import androidx.lifecycle.ViewModelProvider;
 //
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.Duration;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String SHARED_PREF_NAME = "mypref";
+
+    SharedPreferences pref;
 
     private TickerViewModel sharedModel;
     String blub;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (getSupportActionBar() != null){
-            getSupportActionBar().hide();
-        }
-
-        Intent intent = getIntent();
+            Intent intent = getIntent();
 
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)  != PackageManager.PERMISSION_GRANTED) {
-            String[] perms = new String[]{Manifest.permission.RECEIVE_SMS};
-            ActivityCompat.requestPermissions(this, perms, 101);
-            requestPermissions(perms, 101);
-        }
-        sharedModel = new ViewModelProvider(this).get(TickerViewModel.class);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+                String[] perms = new String[]{Manifest.permission.RECEIVE_SMS};
+                ActivityCompat.requestPermissions(this, perms, 101);
+                requestPermissions(perms, 101);
+            }
+            sharedModel = new ViewModelProvider(this).get(TickerViewModel.class);
+            pref = getSharedPreferences(SHARED_PREF_NAME, 0);
+
+
 
     }
-    public TickerViewModel getSharedViewModel(){
-        return sharedModel;
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "onDestroy()", Toast.LENGTH_SHORT).show();
     }
 
     protected void onNewIntent(Intent intent) {
@@ -64,5 +77,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
 }

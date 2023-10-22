@@ -2,7 +2,9 @@ package mina.app.broadcastreciever;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -28,15 +30,14 @@ public class TickerListFragment extends Fragment {
 
     ListView listView;
     TickerViewModel model;
+    SharedPreferences pref;
 
     public TickerListFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
